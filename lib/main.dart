@@ -43,21 +43,35 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Text('Scan'),
             ),
             Expanded(
-              child: ListenableBuilder(
-                listenable: bluetoothNotifier,
-                builder: (context, child) {
-                  return ListView(
-                    children: [
-                      for (final device in bluetoothNotifier.devices)
-                        ListTile(title: Text(device.id), subtitle: Text(device.rssi.toString()))
-                    ],
-                  );
-                },
-              ),
+              child: BluetoothListView(bluetoothNotifier: bluetoothNotifier),
             ),
           ],
         )
       )
+    );
+  }
+}
+
+class BluetoothListView extends StatelessWidget {
+  const BluetoothListView({
+    super.key,
+    required this.bluetoothNotifier,
+  });
+
+  final BluetoothNotifier bluetoothNotifier;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListenableBuilder(
+      listenable: bluetoothNotifier,
+      builder: (context, child) {
+        return ListView(
+          children: [
+            for (final device in bluetoothNotifier.devices)
+              ListTile(title: Text(device.id), subtitle: Text(device.rssi.toString()))
+          ],
+        );
+      },
     );
   }
 }
