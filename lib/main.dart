@@ -38,7 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 print("Scanning...");
-                bluetoothNotifier.scan();
+                bluetoothNotifier.toggle();
               },
               child: Text('Scan'),
             ),

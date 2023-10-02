@@ -41,6 +41,7 @@ class BluetoothNotifier extends ChangeNotifier {
   var _devices = <BLEDevice>[];
 
   List<BLEDevice> get devices => _devices;
+  bool scanning = false;
   
   BluetoothNotifier() {
     bleDeviceStream = flutterReactiveBle.scanForDevices(withServices: [], scanMode: ScanMode.lowLatency);
@@ -64,9 +65,21 @@ class BluetoothNotifier extends ChangeNotifier {
   
   void scan() {
     bleDeviceStreamSubscription.resume();
+    scanning = true;
   }
   
   void pause() {
     bleDeviceStreamSubscription.pause();
+    scanning = false;
+  }
+  
+  void toggle() {
+    if (scanning) {
+      bleDeviceStreamSubscription.pause();
+      scanning = false;
+    } else {
+      bleDeviceStreamSubscription.resume();
+      scanning = true;
+    }
   }
 }
