@@ -42,9 +42,10 @@ class BluetoothNotifier extends ChangeNotifier {
 
   List<BLEDevice> get devices => _devices;
   bool scanning = false;
+  final serviceUuid = Uuid.parse("422da7fb-7d15-425e-a65f-e0dbcc6f4c6a");
   
   BluetoothNotifier() {
-    bleDeviceStream = flutterReactiveBle.scanForDevices(withServices: [], scanMode: ScanMode.lowLatency);
+    bleDeviceStream = flutterReactiveBle.scanForDevices(withServices: [serviceUuid], scanMode: ScanMode.lowLatency);
     bleDeviceStreamSubscription = bleDeviceStream.listen((device) async {
 
       print("Discovered: $device.id");
